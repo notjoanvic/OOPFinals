@@ -1,6 +1,7 @@
 
 package shophomepage;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -16,7 +17,13 @@ public class Homepage extends JFrame implements ActionListener {
     private JPanel panel1, panel2;
     
     Homepage(){
-      
+     setTitle("ITBoutique");
+     setSize(500, 400);
+     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     setLayout(new BorderLayout());
+     setLocationRelativeTo(null);
+     setVisible(true);
+     
         panel1 = new JPanel();
         title = new JLabel();
         panel2 = new JPanel();
@@ -25,7 +32,6 @@ public class Homepage extends JFrame implements ActionListener {
         purhis = new JButton();
         exit = new JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panel1.setBackground(new java.awt.Color(102, 102, 0));
         
@@ -62,6 +68,7 @@ public class Homepage extends JFrame implements ActionListener {
         cart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cart.setForeground(new java.awt.Color(255, 255, 255));
         cart.setLabel("Cart");
+        cart.addActionListener(this);
 
         purhis.setBackground(new java.awt.Color(102, 102, 0));
         purhis.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -130,11 +137,11 @@ public class Homepage extends JFrame implements ActionListener {
         
         else if(e.getSource() == cart){
             dispose();
-//            new ShoppingCart();
+           new shoppingCart();
         }
         else if(e.getSource() == purhis){
             dispose();
-//            new ShoppingCart();
+//            new paymenthistory();
         }
     }
 }

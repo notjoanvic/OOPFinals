@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package shophomepage;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,8 +23,15 @@ public class CheckOut extends JFrame implements ActionListener{
     private JLabel name, address, mobile, title, total;
     private JPanel panel1;
     private JScrollPane jspane2;
-    private JTextArea summ;
+    public JTextArea summ;
     public CheckOut(){
+        setTitle("Payment Order");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
+        setVisible(true);
+        
         panel1 = new JPanel();
         title = new JLabel();
         back = new JButton();
@@ -42,7 +47,6 @@ public class CheckOut extends JFrame implements ActionListener{
         jspane2 = new javax.swing.JScrollPane();
         summ = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panel1.setBackground(new java.awt.Color(102, 102, 0));
 
@@ -55,6 +59,7 @@ public class CheckOut extends JFrame implements ActionListener{
         back.setLabel("<");
         back.setBackground(new java.awt.Color(102, 102, 0));
         back.setName(""); // NOI18N
+        back.addActionListener(this);
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -86,22 +91,14 @@ public class CheckOut extends JFrame implements ActionListener{
 
         total.setText("Total:");
 
-//        textField4.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                textField4ActionPerformed(evt);
-//            }
-//        });
 
         pay.setBackground(new java.awt.Color(255, 153, 153));
         pay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pay.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         pay.setForeground(new java.awt.Color(255, 255, 255));
         pay.setLabel("Place Order");
-//        pay.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                button2ActionPerformed(evt);
-//            }
-//        });
+        pay.addActionListener(this);
+
 
         summ.setColumns(20);
         summ.setRows(5);
@@ -184,9 +181,28 @@ public class CheckOut extends JFrame implements ActionListener{
             new Homepage();
         }
         else if(e.getSource() == pay){
-            dispose();
-            //
+            if (txtname.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(CheckOut.this, "Name field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (txtaddress.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(CheckOut.this, "Address field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (txtmobile.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(CheckOut.this, "Mobile field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // All fields are filled, place the order
+                    dispose();
+            new Homepage();
+            JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
+                    "Payment", JOptionPane.PLAIN_MESSAGE);
+                }
+            
+            
         }
+        if(e.getSource() == createClothingButton()){}
+    }
+
+    public Object createClothingButton() {
+        createClothingButton cb = new createClothingButton();
+        return null;
     }
     
     
