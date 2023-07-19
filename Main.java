@@ -20,12 +20,7 @@ public class Main {
         
         
         );
-//        Homepage hp = new Homepage();
-//        
-//        hp.setTitle("ITBoutique");
-//        hp.setSize(500, 400);
-//        hp.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        hp.setVisible(true);
+
     }
     
 }

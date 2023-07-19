@@ -4,11 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class OnlineShopMenu extends JFrame {
 
+	private String clothingName;
+    private int clothingPrice;
     private JLabel titleLabel;
-    private String selectedItem;
     private JButton[] categoryButtons;
     private String[] categoryNames = {
             "Men's Clothing",
@@ -20,7 +24,20 @@ public class OnlineShopMenu extends JFrame {
             "Gadget",
             "Back to Homepage"
     };
-
+    
+    public String getClothingName() {
+        return clothingName;
+    }
+    public void setClothingName(String clothingName) {
+        this.clothingName = clothingName;
+    }
+    public int getClothingPrice() {
+        return clothingPrice;
+    }
+    public void setClothingPrice(int clothingPrice) {
+        this.clothingPrice = clothingPrice;
+    }
+    
     public OnlineShopMenu() {
         setTitle("PRODUCTS MENU");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,17 +106,9 @@ public class OnlineShopMenu extends JFrame {
                 showGadgets();
             } else if (selectedCategory.equals("Back to Homepage")) {
                 dispose();
-                new Homepage();
+                new Homepage().setVisible(true);
                 
             }
-        }
-    }
-
-    private void addToCart() {
-        if (selectedItem != null) {
-            JOptionPane.showMessageDialog(this, "Item '" + selectedItem + "' is added to cart", "Cart", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No item selected", "Cart", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -129,8 +138,8 @@ public class OnlineShopMenu extends JFrame {
          JButton button = new JButton(clothingName);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                selectedItem = clothingName;
-
+                
+                
                 JPanel panel = new JPanel();
                 panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -151,9 +160,15 @@ public class OnlineShopMenu extends JFrame {
                 buyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 buyButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        // Get the selected clothing name and price
+                        String selectedClothingName = clothingName;
+                        int selectedClothingPrice = price;
+
+                        // Create an instance of CheckOut and pass the clothingName and clothingPrice
+                        CheckOut checkout = new CheckOut(selectedClothingName, selectedClothingPrice);
+
                         dispose();
-                        new CheckOut();
-                        
+                        checkout.setVisible(true);
                     }
                 });
                 panel.add(buyButton);
@@ -164,7 +179,7 @@ public class OnlineShopMenu extends JFrame {
                 cartButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 cartButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        addToCart();
+                    	addToCart(clothingName, price);
                     }
                 });
                 panel.add(cartButton);
@@ -291,16 +306,16 @@ public class OnlineShopMenu extends JFrame {
     }
 
     private void showGadgets() {
-        JButton redmiButton = createClothingButton("SmartPhone: Redmi Note 12 Pro", 18203);
-        JButton samsungButton = createClothingButton("SmartPhone: Samsung Galaxy S23 UltraSamsung Galaxy S23 Ultra", 89990);
-        JButton huaweiButton = createClothingButton("SmartPhone: Huawei P60 Pro", 69999);
-        JButton iphoneButton = createClothingButton("SmartPhone: iPhone 14 Pro Max", 77990);
-        JButton canonButton = createClothingButton("Camera: Canon EOS 4000D", 61808);
-        JButton nikonButton = createClothingButton("Camera: Nikon D7500", 123896);
-        JButton appleButton = createClothingButton("Airpods: Apple Airpods Pro 2nd Generation", 17278);
-        JButton sonyButton = createClothingButton("Airpods: Sony WH-1000XM5", 34949);
-        JButton macbookButton = createClothingButton("Laptop: Apple Macbook Air M1 2020", 119268);
-        JButton lenovoButton = createClothingButton("Laptop: Lenovo Legion 5i Pro", 91875);
+        JButton redmiButton = createClothingButton("(SmartPhone) Redmi Note 12 Pro", 18203);
+        JButton samsungButton = createClothingButton("(SmartPhone) Samsung Galaxy S23 UltraSamsung Galaxy S23 Ultra", 89990);
+        JButton huaweiButton = createClothingButton("(SmartPhone) Huawei P60 Pro", 69999);
+        JButton iphoneButton = createClothingButton("(SmartPhone) iPhone 14 Pro Max", 77990);
+        JButton canonButton = createClothingButton("(Camera) Canon EOS 4000D", 61808);
+        JButton nikonButton = createClothingButton("(Camera) Nikon D7500", 123896);
+        JButton appleButton = createClothingButton("(Airpods) Apple Airpods Pro 2nd Generation", 17278);
+        JButton sonyButton = createClothingButton("(Airpods) Sony WH-1000XM5", 34949);
+        JButton macbookButton = createClothingButton("(Laptop) Apple Macbook Air M1 2020", 119268);
+        JButton lenovoButton = createClothingButton("(Laptop) Lenovo Legion 5i Pro", 91875);
 
         JPanel gadgetsPanel = new JPanel(new GridLayout(7, 1));
         gadgetsPanel.add(redmiButton);
@@ -317,5 +332,23 @@ public class OnlineShopMenu extends JFrame {
         gadgetsPanel.setPreferredSize(new Dimension(900, 500));
 
         JOptionPane.showMessageDialog(this, gadgetsPanel, "Gadgets", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    private void addToCart(String clothingName, int price) {
+        try {
+            // Append the new item to the cart content
+            String cartItem = clothingName + ":" + price;
+            
+            // Write the updated cart content back to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter("cart.txt", true));
+            writer.write(cartItem);
+            writer.newLine();
+            writer.close();
+
+            String message = "Item '" + clothingName + "' added to cart.";
+            JOptionPane.showMessageDialog(this, message, "Added to Cart", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

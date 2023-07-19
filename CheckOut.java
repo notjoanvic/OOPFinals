@@ -12,33 +12,36 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-/**
- *
- * @author hakori17
- */
-public class CheckOut extends JFrame implements ActionListener{
-    
-    public JTextField txtname, txtaddress, txtmobile, txttotal;
+public class CheckOut extends JFrame implements ActionListener {
+    private String clothingName;
+    private int clothingPrice;
+    public JTextField txtname, txtaddress, txtmobile, txttotal, txtclothingname;
     private JButton back, pay;
     private JLabel name, address, mobile, title, total;
     private JPanel panel1;
     private JScrollPane jspane2;
     public JTextArea summ;
-    public CheckOut(){
+
+    public CheckOut(String clothingName, int clothingPrice) {
+        this.clothingName = clothingName;
+        this.clothingPrice = clothingPrice;
+        
+        
+
         setTitle("Payment Order");
         setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setVisible(true);
-        
+
         panel1 = new JPanel();
         title = new JLabel();
         back = new JButton();
         name = new JLabel();
         address = new JLabel();
         mobile = new JLabel();
-        txtname = new JTextField();
+        txtclothingname = new JTextField();
         txtaddress = new JTextField();
         txtmobile = new JTextField();
         total = new JLabel();
@@ -47,18 +50,17 @@ public class CheckOut extends JFrame implements ActionListener{
         jspane2 = new javax.swing.JScrollPane();
         summ = new javax.swing.JTextArea();
 
-
         panel1.setBackground(new java.awt.Color(102, 102, 0));
 
-        title.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        title.setFont(new java.awt.Font("Arial", 1, 14));
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setText("Checkout");
 
         back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        back.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        back.setFont(new java.awt.Font("Arial Black", 1, 12));
         back.setLabel("<");
         back.setBackground(new java.awt.Color(102, 102, 0));
-        back.setName(""); // NOI18N
+        back.setName("");
         back.addActionListener(this);
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
@@ -82,7 +84,7 @@ public class CheckOut extends JFrame implements ActionListener{
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        name.setFont(new java.awt.Font("Arial", 0, 12));
         name.setText("Name:");
 
         address.setText("Address:");
@@ -91,14 +93,12 @@ public class CheckOut extends JFrame implements ActionListener{
 
         total.setText("Total:");
 
-
         pay.setBackground(new java.awt.Color(255, 153, 153));
         pay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pay.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        pay.setFont(new java.awt.Font("Arial", 1, 12));
         pay.setForeground(new java.awt.Color(255, 255, 255));
         pay.setLabel("Place Order");
         pay.addActionListener(this);
-
 
         summ.setColumns(20);
         summ.setRows(5);
@@ -119,7 +119,7 @@ public class CheckOut extends JFrame implements ActionListener{
                             .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtname, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                            .addComponent(txtclothingname, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                             .addComponent(txtaddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +150,7 @@ public class CheckOut extends JFrame implements ActionListener{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtclothingname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,40 +171,45 @@ public class CheckOut extends JFrame implements ActionListener{
                         .addComponent(pay, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))))
         );
-    }
-    
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == back){
-            dispose();
-            new Homepage();
-        }
-        else if(e.getSource() == pay){
-            if (txtname.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(CheckOut.this, "Name field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-                } else if (txtaddress.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(CheckOut.this, "Address field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-                } else if (txtmobile.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(CheckOut.this, "Mobile field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    // All fields are filled, place the order
-                    dispose();
-            new Homepage();
-            JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
-                    "Payment", JOptionPane.PLAIN_MESSAGE);
-                }
-            
-            
-        }
-        if(e.getSource() == createClothingButton()){}
+
+        showSelectedClothing();
     }
 
-    public Object createClothingButton() {
-        createClothingButton cb = new createClothingButton();
-        return null;
+  
+
+    private void showSelectedClothing() {
+        txttotal.setText(String.valueOf(clothingPrice));
+
+        summ.setText("Selected Item:\n" + clothingName + "\nPrice: ₱" + clothingPrice);
     }
-    
-    
+
+    public void setClothingName(String cname) {
+        this.clothingName = cname;
     }
-    
+
+    public void setClothingPrice(int price) {
+        this.clothingPrice = price;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == back) {
+            dispose();
+            new Homepage();
+        } else if (e.getSource() == pay) {
+            if (txtclothingname.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(CheckOut.this, "Name field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (txtaddress.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(CheckOut.this, "Address field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (txtmobile.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(CheckOut.this, "Mobile field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // All fields are filled, place the order
+                dispose();
+                new Homepage();
+                JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
+                        "Payment", JOptionPane.PLAIN_MESSAGE);
+            }
+        }
+    }
+}

@@ -1,4 +1,3 @@
-
 package shophomepage;
 
 import java.awt.BorderLayout;
