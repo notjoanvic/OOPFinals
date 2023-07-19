@@ -23,6 +23,8 @@ public class shoppingCart extends JFrame implements ActionListener {
 
         setTitle("SHOPPING CART");
         setSize(800, 600);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Downloads\\olshoppinglogo.png");    
+       setIconImage(icon); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -201,22 +203,43 @@ public class shoppingCart extends JFrame implements ActionListener {
 
     // Update the actionPerformed method for btnRemoveItem
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnCheckOut) {
-            dispose();
-            // new CheckOut();
-        } else if (e.getSource() == btnBackToHp) {
-            dispose();
-            new Homepage().setVisible(true); // Show the Homepage window
-        } else if (e.getSource() == btnRemoveItem) {
-            String selectedText = itemTextArea.getSelectedText();
-            if (selectedText != null) {
-                removeFromCart(selectedText);
+public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == btnCheckOut) {
+        // Get the selected clothing name and price
+        String selectedText = itemTextArea.getSelectedText();
+        String[] items = itemTextArea.getText().split("\n");
+        String[] prices = priceTextArea.getText().split("\n");
+        int selectedIdx = -1;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i].equals(selectedText)) {
+                selectedIdx = i;
+                break;
             }
-        } else if (e.getSource() == btnTotal) {
-            calculateTotal();
         }
+        
+        // If a valid item is selected, proceed to CheckOut
+        if (selectedIdx != -1) {
+            String selectedClothingName = items[selectedIdx];
+            int selectedClothingPrice = Integer.parseInt(prices[selectedIdx]);
+            
+            // Create an instance of the CheckOut class and pass the clothing details
+            CheckOut checkOutFrame = new CheckOut(selectedClothingName, selectedClothingPrice);
+            dispose(); // Close the shoppingCart frame
+        } else {
+            JOptionPane.showMessageDialog(this, "Please highlight the item to select from the cart.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else if (e.getSource() == btnBackToHp) {
+        dispose();
+        new Homepage().setVisible(true); // Show the Homepage window
+    } else if (e.getSource() == btnRemoveItem) {
+        String selectedText = itemTextArea.getSelectedText();
+        if (selectedText != null) {
+            removeFromCart(selectedText);
+        }
+    } else if (e.getSource() == btnTotal) {
+        calculateTotal();
     }
+}
     
     private void calculateTotal() {
         String[] items = itemTextArea.getText().split("\n");

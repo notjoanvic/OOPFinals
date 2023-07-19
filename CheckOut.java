@@ -1,6 +1,8 @@
 package shophomepage;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -27,7 +29,8 @@ public class CheckOut extends JFrame implements ActionListener {
         this.clothingPrice = clothingPrice;
         
         
-
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Downloads\\olshoppinglogo.png");    
+       setIconImage(icon); 
         setTitle("Payment Order");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +44,7 @@ public class CheckOut extends JFrame implements ActionListener {
         name = new JLabel();
         address = new JLabel();
         mobile = new JLabel();
+        txtname = new JTextField();
         txtclothingname = new JTextField();
         txtaddress = new JTextField();
         txtmobile = new JTextField();
@@ -191,25 +195,26 @@ public class CheckOut extends JFrame implements ActionListener {
         this.clothingPrice = price;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == back) {
+  @Override
+public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == back) {
+        dispose();
+        new Homepage();
+    } else if (e.getSource() == pay) {
+        if (txtclothingname.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(CheckOut.this, "Name field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (txtaddress.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(CheckOut.this, "Address field is empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!txtmobile.getText().matches("\\d{11}")) {
+            // Check if txtmobile contains exactly 11 digits
+            JOptionPane.showMessageDialog(CheckOut.this, "Mobile number should contain exactly 11 digits", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // All fields are filled and txtmobile contains exactly 11 digits, place the order
             dispose();
             new Homepage();
-        } else if (e.getSource() == pay) {
-            if (txtclothingname.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(CheckOut.this, "Name field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (txtaddress.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(CheckOut.this, "Address field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (txtmobile.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(CheckOut.this, "Mobile field is empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                // All fields are filled, place the order
-                dispose();
-                new Homepage();
-                JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
-                        "Payment", JOptionPane.PLAIN_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
+                    "Payment", JOptionPane.PLAIN_MESSAGE);
         }
     }
+}
 }

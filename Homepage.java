@@ -1,11 +1,14 @@
 package shophomepage;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -19,6 +22,8 @@ public class Homepage extends JFrame implements ActionListener {
      setTitle("ITBoutique");
      setSize(500, 400);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Downloads\\olshoppinglogo.png");    
+       setIconImage(icon);    
      setLayout(new BorderLayout());
      setLocationRelativeTo(null);
      setVisible(true);
@@ -128,6 +133,7 @@ public class Homepage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == exit){
             dispose();
+            JOptionPane.showMessageDialog(this,"Thank you for visiting our online shopping platform. Have a wonderful day!","Online Shopping" ,JOptionPane.INFORMATION_MESSAGE);
         }
         else if(e.getSource() == product){
             dispose();
