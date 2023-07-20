@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class CheckOut extends JFrame implements ActionListener {
     private String clothingName;
@@ -178,7 +181,54 @@ public class CheckOut extends JFrame implements ActionListener {
 
         showSelectedClothing();
     }
+ private void SqlDatabase() {
+        // Get the customer details from the text fields
+        String customerName = txtclothingname.getText();
+        String customerAddress = txtaddress.getText();
+        String mobileNumber = txtmobile.getText();
 
+        // Check if any of the customer details are empty
+        if (customerName.isEmpty() || customerAddress.isEmpty() || mobileNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(CheckOut.this, "Please fill in all the customer details.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validate the mobile number format (11 digits)
+        if (!mobileNumber.matches("\\d{11}")) {
+            JOptionPane.showMessageDialog(CheckOut.this, "Mobile number should contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Prepare the data to be saved in the text file (comma-separated format)
+        String orderDetails = clothingName + "," + clothingPrice + "," + customerName + "," + customerAddress + "," + mobileNumber;
+
+        // Define the file path and name for the database
+        String filePath = "Dataproduct.txt";
+
+        try {
+            // Open the file in append mode (to avoid overwriting previous data)
+            PrintWriter writer = new PrintWriter(new FileWriter(filePath, true));
+
+            // Write the order details to the file
+            writer.println(orderDetails);
+
+            // Close the file
+            writer.close();
+
+            // Show a success message
+            JOptionPane.showMessageDialog(CheckOut.this, "Order placed successfully. Thank you for purchasing our product!",
+                    "Payment", JOptionPane.PLAIN_MESSAGE);
+
+            // Clear the text fields
+            txtclothingname.setText("");
+            txtaddress.setText("");
+            txtmobile.setText("");
+        } catch (IOException e) {
+            // Show an error message if there is a problem writing to the file
+            JOptionPane.showMessageDialog(CheckOut.this, "Error while saving the order. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
   
 
     private void showSelectedClothing() {
