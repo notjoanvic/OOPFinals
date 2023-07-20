@@ -195,7 +195,6 @@ public class CheckOut extends JFrame implements ActionListener {
         this.clothingPrice = price;
     }
 
-  @Override
 public void actionPerformed(ActionEvent e) {
     if (e.getSource() == back) {
         dispose();
@@ -210,6 +209,7 @@ public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(CheckOut.this, "Mobile number should contain exactly 11 digits", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             // All fields are filled and txtmobile contains exactly 11 digits, place the order
+            SqlDatabase(); // Call the method to save the order details to the database (text file)
             dispose();
             new Homepage();
             JOptionPane.showMessageDialog(CheckOut.this, "Thank you for purchasing our product!",
@@ -218,3 +218,5 @@ public void actionPerformed(ActionEvent e) {
     }
 }
 }
+
+
